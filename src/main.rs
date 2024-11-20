@@ -44,6 +44,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
 
     let cors_layer = init_cors_layer();
 
+    println!("gRPC+web server listening on {}", host);
+
     Server::builder()
         .accept_http1(true)
         .layer(cors_layer)
