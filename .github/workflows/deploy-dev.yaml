@@ -31,6 +31,8 @@ jobs:
     environment: development
     runs-on: self-hosted
     needs: [build]
+    env:
+      NOMAD_ADDR: ${{ secrets.DEV_NOMAD_ADDR }}
     steps:
       - uses: actions/checkout@v3
 
