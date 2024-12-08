@@ -42,6 +42,8 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
         .build_v1()
         .unwrap();
 
+    let (_, health_service) = tonic_health::server::health_reporter();
+
     let cors_layer = init_cors_layer();
 
     println!("gRPC+web server listening on {}", host);
@@ -49,6 +51,7 @@ async fn main() -> Result<(), Box<dyn std::error::Error>> {
     Server::builder()
         .accept_http1(true)
         .layer(cors_layer)
+        .add_service(tonic_web::enable(health_service))
         .add_service(tonic_web::enable(reflection_service))
         .serve(host.parse().unwrap())
         .await?;
